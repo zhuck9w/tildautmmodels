@@ -4,13 +4,14 @@ function firstClick() {
     // The TILDAUTM cookie already exists
     return;
   }
-
+  const expirationDate = new Date();
+    expirationDate.setDate(expirationDate.getDate() + 90);
   const utmParams = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content']
     .filter(param => Boolean(new URLSearchParams(window.location.search).get(param)))
     .map(param => `${param}=${encodeURIComponent(new URLSearchParams(window.location.search).get(param))}`);
 
   const referrer = document.referrer;
-  const searchEngineRegex = /(google|yahoo|bing|yandex|baidu|duckduckgo)\./i;
+  const searchEngineRegex = /(google|nova\.rambler|yandex|yahoo|duckduckgo|bing)\./i;
   const referralRegex = /https?:\/\/([^/]+)/i;
 
   if (referrer.match(searchEngineRegex)) {
@@ -27,7 +28,7 @@ function firstClick() {
   }
 
   if (utmParams.length > 0) {
-    document.cookie = `TILDAUTM=${utmParams.join('|||')}; path=/;`;
+    document.cookie = `TILDAUTM=${utmParams.join('|||')}; path=/; expires=${expirationDate.toUTCString()}`;
   }
 }
 
@@ -35,9 +36,10 @@ function lastValuable() {
   const utmParams = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content']
     .filter(param => Boolean(new URLSearchParams(window.location.search).get(param)))
     .map(param => `${param}=${encodeURIComponent(new URLSearchParams(window.location.search).get(param))}`);
-
+  const expirationDate = new Date();
+    expirationDate.setDate(expirationDate.getDate() + 90);
   const referrer = document.referrer;
-  const searchEngineRegex = /(google|yahoo|bing|yandex|baidu|duckduckgo)\./i;
+  const searchEngineRegex = /(google|nova\.rambler|yandex|yahoo|duckduckgo|bing)\./i;
   const referralRegex = /https?:\/\/([^/]+)/i;
 
   if (referrer.match(searchEngineRegex)) {
@@ -53,7 +55,7 @@ function lastValuable() {
   if (utmParams.length > 0) {
     document.cookie = `TILDAUTM=${utmParams.join('|||')}; path=/;`;
   } else if (!document.cookie.split(';').some(cookie => cookie.trim().startsWith('TILDAUTM='))) {
-    document.cookie = 'TILDAUTM=utm_source=(direct)|||utm_medium=none; path=/;';
+    document.cookie = `TILDAUTM=utm_source=(direct)|||utm_medium=none; path=/; expires=${expirationDate.toUTCString()}`;
   }
 }
 
@@ -62,9 +64,10 @@ function lastClick() {
   const utmParams = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content']
     .filter(param => Boolean(new URLSearchParams(window.location.search).get(param)))
     .map(param => `${param}=${encodeURIComponent(new URLSearchParams(window.location.search).get(param))}`);
-
+  const expirationDate = new Date();
+    expirationDate.setDate(expirationDate.getDate() + 90);
   const referrer = document.referrer;
-  const searchEngineRegex = /(google|yahoo|bing|yandex|baidu|duckduckgo)\./i;
+  const searchEngineRegex = /(google|nova\.rambler|yandex|yahoo|duckduckgo|bing)\./i;
   const referralRegex = /https?:\/\/([^/]+)/i;
 
   if (referrer.match(searchEngineRegex)) {
@@ -78,9 +81,9 @@ function lastClick() {
   }
 
   if (utmParams.length > 0) {
-    document.cookie = `TILDAUTM=${utmParams.join('|||')}; path=/;`;
+    document.cookie = `TILDAUTM=${utmParams.join('|||')}; path=/; expires=${expirationDate.toUTCString()}`;
   } else {
-    document.cookie = 'TILDAUTM=utm_source=(direct)|||utm_medium=none; path=/;';
+    document.cookie = `TILDAUTM=utm_source=(direct)|||utm_medium=none; path=/; expires=${expirationDate.toUTCString()}`;
   }
 }
 
@@ -99,6 +102,3 @@ function setAttributionModel(model) {
       console.error(`Invalid attribution model: ${model}`);
   }
 }
-
-const model = 'last_click'; // replace with desired attribution model
-setAttributionModel(model);
